@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ChoirHelperFIX</string>
+    <string name="action_search">Search</string>
+    <string name="hint_song_title">Title</string>
+    <string name="hint_song_arranger">Arranger</string>
+    <string name="empty_view_title_text">Still Empty, try to add some songs :)</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="editor_activity_title_new_song">Add a New Song!</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="delete_dialog_msg">Delete selected song?</string>
+</resources>

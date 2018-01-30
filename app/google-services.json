@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "64859606604",
+    "firebase_url": "https://choirhelperfix.firebaseio.com",
+    "project_id": "choirhelperfix",
+    "storage_bucket": "choirhelperfix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64859606604:android:fca30ef6b31f55ce",
+        "android_client_info": {
+          "package_name": "choirhelper.silihasah.org"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64859606604-snlum2drcbo78g2f0d6289sl6tg3np2u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "choirhelper.silihasah.org",
+            "certificate_hash": "9f6da11bf5903a3689a3f8ed18fd53ae1996db20"
+          }
+        },
+        {
+          "client_id": "64859606604-cbivpa41eh0vb0adalgg30j4ut1vcfod.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYpFHCPipyg1vdSwmXxP162_qZeP-L9mQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64859606604-cbivpa41eh0vb0adalgg30j4ut1vcfod.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

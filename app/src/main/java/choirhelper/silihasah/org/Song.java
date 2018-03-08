@@ -3,12 +3,23 @@ package choirhelper.silihasah.org;
 public class Song {
     private String mTitle;
     private String mArranger;
+    private String mSongURL;
+
+
+    public Song(String mTitle, String mArranger, String mSongURL) {
+        this.mTitle = mTitle;
+        this.mArranger = mArranger;
+        this.mSongURL = mSongURL;
+    }
 
     public Song(){}
 
-    public Song(String mTitle, String mArranger) {
-        this.mTitle = mTitle;
-        this.mArranger = mArranger;
+    public void setmSongURL(String mSongURL) {
+        this.mSongURL = mSongURL;
+    }
+
+    public String getmSongURL() {
+        return mSongURL;
     }
 
     public String getmTitle() {

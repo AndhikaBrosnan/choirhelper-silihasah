@@ -20,18 +20,25 @@
     android:paddingLeft="?dialogPreferredPadding"
     android:paddingRight="?dialogPreferredPadding">
 
-    <!-- Name field -->
     <EditText
         android:id="@+id/edit_song_title"
         android:hint="@string/hint_song_title"
         android:inputType="textCapWords"
         style="@style/EditorFieldStyle" />
 
-    <!-- Breed field -->
     <EditText
         android:id="@+id/edit_song_arranger"
         android:hint="@string/hint_song_arranger"
         android:inputType="textCapWords"
         style="@style/EditorFieldStyle" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/uploadmp3"
+        android:layout_margin="8dp"
+        android:src="@drawable/common_plus_signin_btn_icon_light_normal"
+        android:onClick="uploadMp3"
+        />
 
 </LinearLayout>

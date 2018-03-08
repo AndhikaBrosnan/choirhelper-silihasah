@@ -15,22 +15,42 @@
  */
 package choirhelper.silihasah.org;
 
+import android.*;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.IOException;
 
 //import android.view.ActionMode;
 
@@ -40,7 +60,15 @@ import com.google.firebase.database.FirebaseDatabase;
 public class CatalogActivity extends AppCompatActivity {
 
     private DatabaseReference mDb;
+    private StorageReference mStorage;
     private SongAdapter mAdapter;
+
+    private static final int MP3_REQUEST = 1;
+
+    ProgressDialog progressDialog;
+    UploadTask uploadTask;
+    Uri mResulUri;
+    ImageView songImage;
 
     //tambahin variable
     private ActionMode actionMode;
@@ -83,12 +111,17 @@ public class CatalogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
 
-        //TODO (9) setup RecyclerView's layout manager and adapter
         RecyclerView rv = (RecyclerView)findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
 
+        songImage = (ImageView)findViewById(R.id.uploadmp3);
+
+        progressDialog = new ProgressDialog(this);
+
         mDb = FirebaseDatabase.getInstance().getReference().child("song_list");
+        mStorage = FirebaseStorage.getInstance().getReference();
+
         mAdapter = new SongAdapter(this, mDb, findViewById(R.id.empty_view), new SongAdapter.onClickHandler() {
             @Override
             public void onClick(String song_id, Song currentSong) {
@@ -133,11 +166,41 @@ public class CatalogActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.action_save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String key = mDb.push().getKey();
-                        mDb.child(key).setValue(new Song(
-                                title.getText().toString(),
-                                arranger.getText().toString()
-                        ));
+
+                        progressDialog.setMessage("Harap Tunggu...");
+                        progressDialog.show();
+
+                        Uri urisong = mResulUri;
+                        StorageReference storagePath = mStorage.child("Songs").child(mResulUri.getLastPathSegment());
+                        uploadTask = storagePath.putFile(urisong);
+
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(),"Upload Failed",Toast.LENGTH_SHORT).show();
+                                finish();
+                                return;
+                            }
+                        });
+
+                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Toast.makeText(getApplicationContext(),"Upload Done",Toast.LENGTH_SHORT).show();
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                                String key = mDb.push().getKey();
+                                mDb.child(key).setValue(new Song(
+                                        title.getText().toString(),
+                                        arranger.getText().toString(),
+                                        downloadUrl.toString()
+                                ));
+                                progressDialog.dismiss();
+                                return;
+                            }
+                        });
+
+
                     }
                 })
                 .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
@@ -168,11 +231,39 @@ public class CatalogActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.action_save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        progressDialog.setMessage("Harap Tunggu...");
+                        progressDialog.show();
 
-                        mDb.child(currentSongId).setValue(new Song(
-                                title.getText().toString(),
-                                arranger.getText().toString()));
-                                actionMode.finish(); //tambahin finish
+                        Uri urisong = mResulUri;
+                        StorageReference storagePath = mStorage.child("Songs").child(mResulUri.getLastPathSegment());
+                        uploadTask = storagePath.putFile(urisong);
+
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(),"Upload Failed",Toast.LENGTH_SHORT).show();
+                                finish();
+                                return;
+                            }
+                        });
+
+                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Toast.makeText(getApplicationContext(),"Upload Done",Toast.LENGTH_SHORT).show();
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                                String key = mDb.push().getKey();
+                                mDb.child(currentSongId).setValue(new Song(
+                                        title.getText().toString(),
+                                        arranger.getText().toString(),
+                                        downloadUrl.toString()
+                                ));
+                                progressDialog.dismiss();
+                                actionMode.finish();
+                                return;
+                            }
+                        });
 
 
                     }
@@ -213,5 +304,26 @@ public class CatalogActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_catalog, menu);
         return true;
+    }
+
+    public void uploadMp3(View view) {
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE}, MP3_REQUEST);
+        }else{
+
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("audio/*");
+            startActivityForResult(intent,MP3_REQUEST);
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MP3_REQUEST && resultCode == RESULT_OK) {
+            final Uri songUri = data.getData();
+            mResulUri = songUri;
+            Log.d("media","onActivityResult"+songUri.toString());
+
+        }
     }
 }

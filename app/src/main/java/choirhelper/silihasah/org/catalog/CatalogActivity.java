@@ -13,18 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package choirhelper.silihasah.org;
+package choirhelper.silihasah.org.catalog;
 
-import android.*;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -50,7 +46,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
+import choirhelper.silihasah.org.R;
 
 //import android.view.ActionMode;
 
@@ -75,7 +71,7 @@ public class CatalogActivity extends AppCompatActivity {
     private ActionMode.Callback callback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            actionMode.getMenuInflater().inflate(R.menu.context_catalog,menu);
+            actionMode.getMenuInflater().inflate(choirhelper.silihasah.org.R.menu.context_catalog,menu);
             return true;
         }
 

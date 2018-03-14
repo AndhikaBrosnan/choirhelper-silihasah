@@ -1,4 +1,4 @@
-package choirhelper.silihasah.org;
+package choirhelper.silihasah.org.catalog;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +13,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
+
+import choirhelper.silihasah.org.R;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder_> {
 

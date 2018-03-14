@@ -1,4 +1,4 @@
-package choirhelper.silihasah.org;
+package choirhelper.silihasah.org.catalog;
 
 public class Song {
     private String mTitle;

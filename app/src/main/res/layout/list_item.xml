@@ -7,7 +7,7 @@
     android:background="@drawable/selector_item" >
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="3"
+        android:layout_weight="5"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp" >
@@ -34,11 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/playbutton"
-            android:visibility="invisible"
-            android:src="@drawable/common_ic_googleplayservices"/>
+            android:visibility="visible"
+            android:src="@drawable/ic_play_arrow_black_24dp"/>
     </LinearLayout>
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:background="?android:listDivider" />-->
 </LinearLayout>

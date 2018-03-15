@@ -47,6 +47,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import choirhelper.silihasah.org.R;
+import choirhelper.silihasah.org.singing.SingActivity;
 
 //import android.view.ActionMode;
 
@@ -127,6 +128,10 @@ public class CatalogActivity extends AppCompatActivity {
                     else actionMode.invalidate();
                     return;
                 }
+
+                Intent intent = new Intent(getApplicationContext(), SingActivity.class);
+                startActivity(intent);
+
                 Toast.makeText(CatalogActivity.this, currentSong.getmTitle(),Toast.LENGTH_LONG).show();
             }
 

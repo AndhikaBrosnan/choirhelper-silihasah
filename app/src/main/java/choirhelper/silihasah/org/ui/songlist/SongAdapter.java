@@ -1,4 +1,4 @@
-package choirhelper.silihasah.org.catalog;
+package choirhelper.silihasah.org.ui.songlist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.ArrayList;
 
 import choirhelper.silihasah.org.R;
+import choirhelper.silihasah.org.data.Song;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder_> {
 
@@ -42,6 +43,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder_> {
         Song currentSong = mData.get(position);
         holder.mTitle.setText(currentSong.getmTitle());
         holder.mArranger.setText(currentSong.getmArranger());
+        holder.mPembagianSuara.setText(currentSong.getJns_Suara());
 
         //tambahan
         holder.itemView.setSelected(mSelectedId.contains(mDataId.get(position)));
@@ -118,11 +120,13 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder_> {
             implements View.OnClickListener, View.OnLongClickListener{
         final TextView mTitle;
         final TextView mArranger;
+        final TextView mPembagianSuara;
 
         ViewHolder_ (View view){
             super(view);
             mTitle = (TextView)view.findViewById(R.id.song_title);
             mArranger = (TextView)view.findViewById(R.id.song_arranger);
+            mPembagianSuara = (TextView)view.findViewById(R.id.song_voicetypes);
             view.setOnClickListener(this);
             //tambahan
             view.setOnLongClickListener(this);
@@ -134,7 +138,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder_> {
             mClickHandler.onClick(mDataId.get(getAdapterPosition()), mData.get(getAdapterPosition()));
         }
 
-        //implement method hasil Alt + Enter
         @Override
         public boolean onLongClick(View view) {
             return mClickHandler.onLongClick(mDataId.get(getAdapterPosition())); //tambahin

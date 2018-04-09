@@ -10,11 +10,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<!-- Options menu for the CatalogActivity -->
+<!-- Options menu for SongActivityvity -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".catalog.CatalogActivity">
+    tools:context=".ui.songlist.SongActivity">
 
     <item
         android:id="@+id/action_search"

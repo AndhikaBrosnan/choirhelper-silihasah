@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ChoirHelperFIX</string>
+    <string name="app_name">Choir Helper</string>
     <string name="action_search">Search</string>
     <string name="hint_song_title">Title</string>
     <string name="hint_song_arranger">Arranger</string>

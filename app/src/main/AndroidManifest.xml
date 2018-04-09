@@ -13,14 +13,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".catalog.CatalogActivity">
+        <activity android:name=".ui.songlist.SongActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".singing.SingActivity"></activity>
+        <activity
+            android:name=".ui.singing.SingBassActivity"
+            android:label="SING BASS"
+            android:parentActivityName=".ui.songlist.SongActivity" />
+        <activity android:name=".ui.practice.PickVoiceTypeActivity" />
+        <activity
+            android:name=".ui.singing.SingSopranActivity"
+            android:parentActivityName=".ui.songlist.SongActivity" />
+        <activity android:name=".ui.singing.singpractice.ListennSingActivity"></activity>
     </application>
 
 </manifest>

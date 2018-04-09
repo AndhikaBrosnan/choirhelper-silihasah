@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/edit_song_title"
+        style="@style/EditorFieldStyle"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/hint_song_title"
+        android:inputType="textCapWords"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edit_song_arranger"
+        style="@style/EditorFieldStyle"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/hint_song_arranger"
+        android:inputType="textCapWords"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_song_title" />
+
+
+    <CheckBox
+        android:id="@+id/cb_sopran"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Sopran"
+        app:layout_constraintEnd_toEndOf="@+id/info_voicetype"
+        app:layout_constraintStart_toStartOf="@+id/info_voicetype"
+        app:layout_constraintTop_toBottomOf="@+id/info_voicetype" />
+
+    <CheckBox
+        android:id="@+id/cb_alto"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Alto"
+        app:layout_constraintStart_toStartOf="@+id/cb_sopran"
+        app:layout_constraintTop_toBottomOf="@+id/cb_sopran" />
+
+    <CheckBox
+        android:id="@+id/cb_tenor"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Tenor"
+        app:layout_constraintStart_toStartOf="@+id/cb_alto"
+        app:layout_constraintTop_toBottomOf="@+id/cb_alto" />
+
+    <CheckBox
+        android:id="@+id/cb_bass"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Bass"
+        app:layout_constraintStart_toStartOf="@+id/cb_tenor"
+        app:layout_constraintTop_toBottomOf="@+id/cb_tenor" />
+
+    <ImageView
+        android:id="@+id/uploadmp3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="uploadMp3"
+        android:src="@drawable/common_plus_signin_btn_icon_light_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cb_bass" />
+
+    <TextView
+        android:id="@+id/info_voicetype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Voice Type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_song_arranger" />
+
+
+</android.support.constraint.ConstraintLayout>

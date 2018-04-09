@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.practice.PickVoiceTypeActivity">
+
+    <Button
+        android:id="@+id/b_sopran"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="SOPRAN"
+        android:onClick="voiceOnClicks"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/b_alto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:onClick="voiceOnClicks"
+        app:layout_constraintTop_toBottomOf="@+id/b_sopran"
+        android:text="ALTO"
+        />
+    <Button
+        android:id="@+id/b_tenor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TENOR"
+        android:onClick="voiceOnClicks"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/b_alto"
+        />
+    <Button
+        android:id="@+id/b_bass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:onClick="voiceOnClicks"
+        android:text="BASS"
+        app:layout_constraintTop_toBottomOf="@+id/b_tenor"
+        />
+
+</android.support.constraint.ConstraintLayout>

@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="editorColorPrimary">#2D3640</color>
     <color name="selectedColor">#E0E0E0</color>
+    <color name="red">#ff0707</color>
+    <color name="grey">#b7b7b7</color>
+    <color name="green">#15ff00</color>
 </resources>

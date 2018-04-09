@@ -24,6 +24,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="ARRANGER" />
+
+        <TextView
+            android:id="@+id/song_voicetypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="VOICE DEVIDER"
+            />
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="0dp"

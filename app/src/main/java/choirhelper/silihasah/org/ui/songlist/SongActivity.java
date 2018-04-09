@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package choirhelper.silihasah.org.catalog;
+package choirhelper.silihasah.org.ui.songlist;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -34,6 +34,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -47,14 +48,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import choirhelper.silihasah.org.R;
-import choirhelper.silihasah.org.singing.SingActivity;
+import choirhelper.silihasah.org.data.Song;
+import choirhelper.silihasah.org.ui.practice.PickVoiceTypeActivity;
 
 //import android.view.ActionMode;
 
 /**
  * Displays list of pets that were entered and stored in the app.
  */
-public class CatalogActivity extends AppCompatActivity {
+public class SongActivity extends AppCompatActivity {
 
     private DatabaseReference mDb;
     private StorageReference mStorage;
@@ -122,6 +124,7 @@ public class CatalogActivity extends AppCompatActivity {
         mAdapter = new SongAdapter(this, mDb, findViewById(R.id.empty_view), new SongAdapter.onClickHandler() {
             @Override
             public void onClick(String song_id, Song currentSong) {
+
                 if(actionMode != null){
                     mAdapter.toggleSelection(song_id);
                     if(mAdapter.selectionCount()==0)actionMode.finish();
@@ -129,20 +132,27 @@ public class CatalogActivity extends AppCompatActivity {
                     return;
                 }
 
-                Intent intent = new Intent(getApplicationContext(), SingActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PickVoiceTypeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("sopran",currentSong.isSopran());
+                bundle.putBoolean("alto",currentSong.isAlto());
+                bundle.putBoolean("tenor",currentSong.isTenor());
+                bundle.putBoolean("bass",currentSong.isBass());
+                intent.putExtras(bundle);
                 startActivity(intent);
 
-                Toast.makeText(CatalogActivity.this, currentSong.getmTitle(),Toast.LENGTH_LONG).show();
+//                Toast.makeText(SongActivity.this, currentSong.getmTitle(),Toast.LENGTH_LONG).show();
             }
 
             @Override
             public boolean onLongClick(String song_id) {
                 if(actionMode != null)return false;
                 mAdapter.toggleSelection(song_id);
-                actionMode = CatalogActivity.this.startSupportActionMode(callback);
+                actionMode = SongActivity.this.startSupportActionMode(callback);
                 return true;
             }
         });//tambahin parameter sama hapus new sampe kurung kurawal
+
         rv.setAdapter(mAdapter);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -158,9 +168,15 @@ public class CatalogActivity extends AppCompatActivity {
         //TODO (10) insert dummy data to our real-time database
 //        String key = mDb.push().getKey();
 //        mDb.child(key).setValue(new Song("Ratatouille","Tapir"));
-        View view = getLayoutInflater().inflate(R.layout.dialog_editor,null, false);
+        View view = getLayoutInflater().inflate(R.layout.song_editor,null, false);
         final EditText title = (EditText)view.findViewById(R.id.edit_song_title);
         final EditText arranger = (EditText)view.findViewById(R.id.edit_song_arranger);
+
+        final CheckBox cek_Sopran = (CheckBox)view.findViewById(R.id.cb_sopran);
+        final CheckBox cek_Alto = (CheckBox)view.findViewById(R.id.cb_alto);
+        final CheckBox cek_Tenor = (CheckBox)view.findViewById(R.id.cb_tenor);
+        final CheckBox cek_Bass = (CheckBox)view.findViewById(R.id.cb_bass);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setView(view)
                 .setTitle(R.string.editor_activity_title_new_song)
@@ -194,14 +210,16 @@ public class CatalogActivity extends AppCompatActivity {
                                 mDb.child(key).setValue(new Song(
                                         title.getText().toString(),
                                         arranger.getText().toString(),
-                                        downloadUrl.toString()
+                                        downloadUrl.toString(),
+                                        cek_Sopran.isChecked(),
+                                        cek_Alto.isChecked(),
+                                        cek_Tenor.isChecked(),
+                                        cek_Bass.isChecked()
                                 ));
                                 progressDialog.dismiss();
                                 return;
                             }
                         });
-
-
                     }
                 })
                 .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
@@ -215,15 +233,23 @@ public class CatalogActivity extends AppCompatActivity {
     }
 
     private void editSong(){
-        View view = getLayoutInflater().inflate(R.layout.dialog_editor,null, false);
+        View view = getLayoutInflater().inflate(R.layout.song_editor,null, false);
         final EditText title = (EditText)view.findViewById(R.id.edit_song_title);
         final EditText arranger = (EditText)view.findViewById(R.id.edit_song_arranger);
+        final CheckBox cek_Sopran = (CheckBox)view.findViewById(R.id.cb_sopran);
+        final CheckBox cek_Alto = (CheckBox)view.findViewById(R.id.cb_alto);
+        final CheckBox cek_Tenor = (CheckBox)view.findViewById(R.id.cb_tenor);
+        final CheckBox cek_Bass = (CheckBox)view.findViewById(R.id.cb_bass);
 
         //copy terus tambahin dibawah ini
         final String currentSongId = mAdapter.getmSelectedId().get(0);
         Song currentSong = mAdapter.getSong(currentSongId);
         title.setText(currentSong.getmTitle());
         arranger.setText(currentSong.getmArranger());
+        cek_Sopran.setChecked(currentSong.isSopran());
+        cek_Alto.setChecked(currentSong.isAlto());
+        cek_Tenor.setChecked(currentSong.isTenor());
+        cek_Bass.setChecked(currentSong.isBass());
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
@@ -258,7 +284,11 @@ public class CatalogActivity extends AppCompatActivity {
                                 mDb.child(currentSongId).setValue(new Song(
                                         title.getText().toString(),
                                         arranger.getText().toString(),
-                                        downloadUrl.toString()
+                                        downloadUrl.toString(),
+                                        cek_Sopran.isChecked(),
+                                        cek_Alto.isChecked(),
+                                        cek_Tenor.isChecked(),
+                                        cek_Bass.isChecked()
                                 ));
                                 progressDialog.dismiss();
                                 actionMode.finish();
@@ -324,7 +354,6 @@ public class CatalogActivity extends AppCompatActivity {
             final Uri songUri = data.getData();
             mResulUri = songUri;
             Log.d("media","onActivityResult"+songUri.toString());
-
         }
     }
 }

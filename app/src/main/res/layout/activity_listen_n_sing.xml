@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.singing.singpractice.ListennSingActivity">
+    tools:context=".ui.sing.singpractice.ListennSingActivity">
 
 
     <TextView
@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:text="Frequency Suara anda: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_listentune" />
 
     <TextView
         android:id="@+id/tv_freq_practice"
@@ -110,7 +110,7 @@
         app:layout_constraintTop_toTopOf="@+id/info_good_frequency_practice" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_listentune"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginEnd="8dp"

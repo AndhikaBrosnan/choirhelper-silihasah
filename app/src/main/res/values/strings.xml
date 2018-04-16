@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Choir Helper</string>
-    <string name="action_search">Search</string>
+    <string name="action_sing">Sing</string>
     <string name="hint_song_title">Title</string>
     <string name="hint_song_arranger">Arranger</string>
     <string name="empty_view_title_text">Still Empty, try to add some songs :)</string>
@@ -10,4 +10,7 @@
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
     <string name="delete_dialog_msg">Delete selected song?</string>
+    <string name="permission">Permission</string>
+    <string name="permission_record_audio">The app must be able to use the microphone.</string>
+    <string name="audio_record_init_error">Could not initialize AudioRecord.</string>
 </resources>

@@ -1,4 +1,4 @@
-package choirhelper.silihasah.org.ui.singing.singpractice;
+package choirhelper.silihasah.org.ui.sing.singpractice;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ public class ListennSingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listen_n_sing);
 
-        playbutton = (ImageView)findViewById(R.id.playbutton);
+        playbutton = (ImageView)findViewById(R.id.iv_listentune);
 
         playbutton.setOnClickListener(new View.OnClickListener() {
             @Override

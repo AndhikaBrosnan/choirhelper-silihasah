@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import choirhelper.silihasah.org.R;
-import choirhelper.silihasah.org.ui.singing.SingBassActivity;
-import choirhelper.silihasah.org.ui.singing.SingSopranActivity;
+import choirhelper.silihasah.org.ui.pitch.PitchSongActivity;
+import choirhelper.silihasah.org.ui.sing.singpractice.ListennSingActivity;
 
 public class PickVoiceTypeActivity extends AppCompatActivity {
 
@@ -30,7 +30,44 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pick_voice_type);
 
         initView();
+        initOnClicks();
+
     }
+
+    private void initOnClicks(){
+        sopran.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PitchSongActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        alto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),PitchSongActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tenor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),PitchSongActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        bass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),PitchSongActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     private void initView(){
         sopran = (Button)findViewById(R.id.b_sopran);
@@ -130,27 +167,27 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
 
     public void voiceOnClicks(View view) {
 
-        View v = getLayoutInflater().inflate(R.layout.tone_editor,null,false);
-
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                .setView(v)
-                .setTitle("Pilih nada untuk dilatih")
-                .setIcon(R.mipmap.ic_launcher)
-                .setPositiveButton(R.string.action_save, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getApplicationContext(),SingSopranActivity.class);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-        dialog.create().show();
+//        View v = getLayoutInflater().inflate(R.layout.tone_editor,null,false);
+//
+//        AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+//                .setView(v)
+//                .setTitle("Pilih nada untuk dilatih")
+//                .setIcon(R.mipmap.ic_launcher)
+//                .setPositiveButton(R.string.action_save, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent intent = new Intent(getApplicationContext(),ListennSingActivity.class);
+//                        startActivity(intent);
+//                    }
+//                })
+//                .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                });
+//
+//        dialog.create().show();
 
     }
 }

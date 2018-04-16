@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.pitch.PitchSongActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_record"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_mic_white_24dp"
+        app:civ_border_color="#a2fff4"
+        app:civ_border_width="2dp"
+        app:civ_circle_background_color="@android:color/holo_orange_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_record" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_tonepersec"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_record" />
+
+    <TextView
+        android:id="@+id/info_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="Rekam lagu pada Android Anda"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_infofrequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Frequency:"
+        app:layout_constraintStart_toEndOf="@+id/iv_record"
+        app:layout_constraintTop_toTopOf="@+id/iv_record" />
+
+    <TextView
+        android:id="@+id/tv_songfrequencies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:text="0 Hz"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_infofrequency"
+        app:layout_constraintStart_toEndOf="@+id/tv_infofrequency"
+        app:layout_constraintTop_toTopOf="@+id/tv_infofrequency" />
+
+    <TextView
+        android:id="@+id/tv_info_pitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Pitch: "
+        app:layout_constraintBottom_toBottomOf="@+id/iv_record"
+        app:layout_constraintEnd_toEndOf="@+id/tv_infofrequency"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/iv_record"
+        app:layout_constraintTop_toBottomOf="@+id/tv_info_recordtime" />
+
+    <TextView
+        android:id="@+id/tv_songpitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Nada"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_info_pitch"
+        app:layout_constraintStart_toEndOf="@+id/tv_infofrequency"
+        app:layout_constraintTop_toTopOf="@+id/tv_info_pitch" />
+
+    <TextView
+        android:id="@+id/tv_info_recordtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Record Time:"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_record"
+        app:layout_constraintStart_toEndOf="@+id/iv_record"
+        app:layout_constraintTop_toTopOf="@+id/iv_record" />
+
+    <TextView
+        android:id="@+id/tv_recordtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:text="00:00:00"
+        app:layout_constraintStart_toEndOf="@+id/tv_info_recordtime"
+        app:layout_constraintTop_toTopOf="@+id/tv_info_recordtime" />
+</android.support.constraint.ConstraintLayout>

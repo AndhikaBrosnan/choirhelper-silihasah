@@ -1,4 +1,4 @@
-package choirhelper.silihasah.org.ui.singing;
+package choirhelper.silihasah.org.ui.sing;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
@@ -28,7 +28,6 @@ public class SingBassActivity extends AppCompatActivity {
             secs = (int)(updateTime/1000);
             priceTrigg = (int)(updateTime/1000);
             mins = secs/60;
-            count++;
 
             secs%=60;
             int milliseconds = (int)(updateTime%1000);
@@ -55,7 +54,6 @@ public class SingBassActivity extends AppCompatActivity {
     int secs = 0;
     int priceTrigg = 0;
     int mins = 0;
-    int count = 0;
 
     private SeekBar seekBar;
     private TextView ketepatannada;

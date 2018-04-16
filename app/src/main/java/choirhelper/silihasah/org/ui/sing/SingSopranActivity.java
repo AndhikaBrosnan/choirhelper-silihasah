@@ -1,4 +1,4 @@
-package choirhelper.silihasah.org.ui.singing;
+package choirhelper.silihasah.org.ui.sing;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

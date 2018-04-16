@@ -17,8 +17,8 @@
     tools:context=".ui.songlist.SongActivity">
 
     <item
-        android:id="@+id/action_search"
-        android:title="@string/action_search"
-        android:icon="@drawable/ic_search_white_24dp"
+        android:id="@+id/action_sing"
+        android:title="@string/action_sing"
+        android:icon="@drawable/ic_music_note_black_24dp"
         app:showAsAction="ifRoom" />
 </menu>

@@ -51,7 +51,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="serif"
         android:gravity="center"
         android:text="Keterangan ketepatan nada"
@@ -90,7 +90,7 @@
         <ImageView
             android:id="@+id/iv_tunelow_practice"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="85dp"
             android:layout_weight="1"
             android:layout_margin="8dp"
             android:src="@color/grey"
@@ -99,15 +99,15 @@
         <ImageView
             android:id="@+id/iv_tunegood_practice"
             android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
+            android:layout_height="130dp"
+            android:layout_weight="1.5"
             android:layout_margin="8dp"
             android:src="@color/grey"/>
 
         <ImageView
             android:id="@+id/iv_tunehigh_practice"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="85dp"
             android:layout_weight="1"
             android:layout_margin="8dp"
             android:src="@color/grey"

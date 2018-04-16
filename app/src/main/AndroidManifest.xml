@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -21,14 +22,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.singing.SingBassActivity"
+            android:name=".ui.sing.SingBassActivity"
             android:label="SING BASS"
             android:parentActivityName=".ui.songlist.SongActivity" />
         <activity android:name=".ui.practice.PickVoiceTypeActivity" />
         <activity
-            android:name=".ui.singing.SingSopranActivity"
+            android:name=".ui.sing.SingSopranActivity"
             android:parentActivityName=".ui.songlist.SongActivity" />
-        <activity android:name=".ui.singing.singpractice.ListennSingActivity"></activity>
+        <activity android:name=".ui.sing.singpractice.ListennSingActivity" />
+        <activity android:name=".ui.pitch.PitchSongActivity"/>
     </application>
 
 </manifest>

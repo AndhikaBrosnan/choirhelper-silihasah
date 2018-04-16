@@ -50,6 +50,7 @@ import com.google.firebase.storage.UploadTask;
 import choirhelper.silihasah.org.R;
 import choirhelper.silihasah.org.data.Song;
 import choirhelper.silihasah.org.ui.practice.PickVoiceTypeActivity;
+import choirhelper.silihasah.org.ui.sing.SingSopranActivity;
 
 //import android.view.ActionMode;
 
@@ -74,7 +75,7 @@ public class SongActivity extends AppCompatActivity {
     private ActionMode.Callback callback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            actionMode.getMenuInflater().inflate(choirhelper.silihasah.org.R.menu.context_catalog,menu);
+            actionMode.getMenuInflater().inflate(choirhelper.silihasah.org.R.menu.context_song_catalog,menu);
             return true;
         }
 
@@ -96,6 +97,8 @@ public class SongActivity extends AppCompatActivity {
             }
             return false;
         }
+
+
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
@@ -165,9 +168,6 @@ public class SongActivity extends AppCompatActivity {
 
     //biar bisa add
     private void addSong() {
-        //TODO (10) insert dummy data to our real-time database
-//        String key = mDb.push().getKey();
-//        mDb.child(key).setValue(new Song("Ratatouille","Tapir"));
         View view = getLayoutInflater().inflate(R.layout.song_editor,null, false);
         final EditText title = (EditText)view.findViewById(R.id.edit_song_title);
         final EditText arranger = (EditText)view.findViewById(R.id.edit_song_arranger);
@@ -333,8 +333,20 @@ public class SongActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_catalog, menu);
+        getMenuInflater().inflate(R.menu.menu_song_catalog, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_sing:
+                Intent intent = new Intent (getApplicationContext(),SingSopranActivity.class);
+                startActivity(intent);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void uploadMp3(View view) {

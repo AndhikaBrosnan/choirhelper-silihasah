@@ -23,6 +23,8 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
     private boolean isAlto;
     private boolean isTenor;
     private boolean isBass;
+    private String songTitle;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +34,21 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
         initView();
         initOnClicks();
 
+        setTitle(songTitle);
     }
 
     private void initOnClicks(){
+
+        final Bundle bundle = new Bundle();
+        bundle.putString("title",songTitle);
+        bundle.putString("uid",uid);
+
         sopran.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PitchSongActivity.class);
+                bundle.putString("voicetype","sopran");
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -47,6 +57,8 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),PitchSongActivity.class);
+                bundle.putString("voicetype","alto");
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -55,6 +67,8 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),PitchSongActivity.class);
+                bundle.putString("voicetype","tenor");
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -63,6 +77,8 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),PitchSongActivity.class);
+                bundle.putString("voicetype","bass");
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -80,10 +96,12 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
         tenor.setVisibility(View.GONE);
         bass.setVisibility(View.GONE);
 
+        songTitle = getIntent().getStringExtra("title");
         isSopran = getIntent().getBooleanExtra("sopran",false);
         isAlto = getIntent().getBooleanExtra("alto",false);
         isTenor = getIntent().getBooleanExtra("tenor",false);
         isBass = getIntent().getBooleanExtra("bass",false);
+        uid = getIntent().getStringExtra("uid");
 
         //if sopran shows sopran button, alto shows alto and so on
         if(isSopran == true && isAlto == true &&isTenor == true &&  isBass == true){

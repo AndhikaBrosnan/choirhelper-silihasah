@@ -98,8 +98,6 @@ public class SongActivity extends AppCompatActivity {
             return false;
         }
 
-
-
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             actionMode = null;
@@ -124,10 +122,10 @@ public class SongActivity extends AppCompatActivity {
         mDb = FirebaseDatabase.getInstance().getReference().child("song_list");
         mStorage = FirebaseStorage.getInstance().getReference();
 
+
         mAdapter = new SongAdapter(this, mDb, findViewById(R.id.empty_view), new SongAdapter.onClickHandler() {
             @Override
             public void onClick(String song_id, Song currentSong) {
-
                 if(actionMode != null){
                     mAdapter.toggleSelection(song_id);
                     if(mAdapter.selectionCount()==0)actionMode.finish();
@@ -137,13 +135,14 @@ public class SongActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), PickVoiceTypeActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("title",currentSong.getmTitle());
                 bundle.putBoolean("sopran",currentSong.isSopran());
                 bundle.putBoolean("alto",currentSong.isAlto());
                 bundle.putBoolean("tenor",currentSong.isTenor());
                 bundle.putBoolean("bass",currentSong.isBass());
+                bundle.putString("uid",song_id);
                 intent.putExtras(bundle);
                 startActivity(intent);
-
 //                Toast.makeText(SongActivity.this, currentSong.getmTitle(),Toast.LENGTH_LONG).show();
             }
 
@@ -342,6 +341,7 @@ public class SongActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_sing:
                 Intent intent = new Intent (getApplicationContext(),SingSopranActivity.class);
+                //send data to bernyanyi activity
                 startActivity(intent);
                 return true;
         }

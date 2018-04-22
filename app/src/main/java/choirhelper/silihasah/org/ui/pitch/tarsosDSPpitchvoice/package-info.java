@@ -25,4 +25,4 @@
 /**
  * Concrete implementations of the abstract audio IO for Dalvik/Android.
  */
-package choirhelper.silihasah.org.ui.pitch.TarsosDSPstuffs;
+package choirhelper.silihasah.org.ui.pitch.tarsosDSPpitchvoice;

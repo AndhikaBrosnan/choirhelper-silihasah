@@ -1,10 +1,15 @@
 package choirhelper.silihasah.org.ui.sing;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -15,6 +20,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import choirhelper.silihasah.org.R;
 
 /**
@@ -22,7 +40,6 @@ import choirhelper.silihasah.org.R;
  */
 
 public class SingSopranActivity extends AppCompatActivity {
-
 
     Runnable updateTimerThread = new Runnable() {
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
@@ -37,17 +54,12 @@ public class SingSopranActivity extends AppCompatActivity {
 
             secs%=60;
             int milliseconds = (int)(updateTime%1000);
-            tv_timer.setText(String.format("%2d",mins)+":"+String.format("%2d",secs)+":"+String.format("%3d",milliseconds));
+            tv_timer.setText(String.format("%2d",mins)+":"+String.format("%2d",secs));
 
             //Seekbar handler
             seekBar.setMax(50);
             seekBar.setProgress(0);
             seekBar.setProgress(secs);
-
-
-            if (seekBar.equals(50)){
-
-            }
 
             tuning();
 
@@ -72,10 +84,14 @@ public class SingSopranActivity extends AppCompatActivity {
 
     private int frequency_suara;
 
+    final Context context = this;
+
     private ImageView tunegood;
     private ImageView tunehigh;
     private ImageView tunelow;
     private TextView goodfreq;
+    private EditText ipaddress;
+    private Button startbutton;
 
 
     @Override
@@ -86,6 +102,7 @@ public class SingSopranActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initView();
+//        serverConnect();
 
         mDb = FirebaseDatabase.getInstance().getReference().child("frequency");
 
@@ -118,7 +135,87 @@ public class SingSopranActivity extends AppCompatActivity {
         tunehigh = (ImageView)findViewById(R.id.iv_tunehigh_practice);
         tunelow = (ImageView)findViewById(R.id.iv_tunelow_practice);
         goodfreq = (TextView)findViewById(R.id.tv_goodfreq_practice);
+        ipaddress = (EditText)findViewById(R.id.et_ipaddr);
+        startbutton = (Button)findViewById(R.id.b_start);
     }
+
+    //realtime wifi client code
+
+//    private void serverConnect(){
+//        String serverAdress = ipaddress.getText().toString() + ":" + "80";
+//        HttpRequestTask requestTask = new HttpRequestTask(serverAdress);
+//        requestTask.execute(ledStatus);
+//    }
+//
+//    private class HttpRequestTask extends AsyncTask<String, Void, String> {
+//
+//        private String serverAdress;
+//        private String serverResponse = "";
+//        private AlertDialog dialog;
+//
+//        public HttpRequestTask(String serverAdress) {
+//            this.serverAdress = serverAdress;
+//
+//            dialog = new AlertDialog.Builder(context)
+//                    .setTitle("HTTP Response from Ip Address:")
+//                    .setCancelable(true)
+//                    .create();
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            dialog.setMessage("Data sent , waiting response from server...");
+//
+//            if (!dialog.isShowing())
+//                dialog.show();
+//
+//            String val = params[0];
+//            final String url = "http://" + serverAdress + "/led/" + val;
+//
+//            try {
+//                HttpClient client = new DefaultHttpClient();
+//                HttpGet getRequest = new HttpGet();
+//                getRequest.setURI(new URI(url));
+//                HttpResponse response = client.execute(getRequest);
+//
+//                InputStream inputStream = null;
+//                inputStream = response.getEntity().getContent();
+//                BufferedReader bufferedReader =
+//                        new BufferedReader(new InputStreamReader(inputStream));
+//
+//                serverResponse = bufferedReader.readLine();
+//                inputStream.close();
+//
+//            } catch (URISyntaxException e) {
+//                e.printStackTrace();
+//                serverResponse = e.getMessage();
+//            } catch (ClientProtocolException e) {
+//                e.printStackTrace();
+//                serverResponse = e.getMessage();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                serverResponse = e.getMessage();
+//            }
+//
+//            return serverResponse;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            dialog.setMessage(serverResponse);
+//
+//            if (!dialog.isShowing())
+//                dialog.show();
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            dialog.setMessage("Sending data to server, please wait...");
+//
+//            if (!dialog.isShowing())
+//                dialog.show();
+//        }
+//    }
 
     private void tuning(){
 

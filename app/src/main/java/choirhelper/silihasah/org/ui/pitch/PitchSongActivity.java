@@ -1,8 +1,11 @@
 package choirhelper.silihasah.org.ui.pitch;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.SyncStateContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,9 +14,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
@@ -23,14 +31,15 @@ import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
 import choirhelper.silihasah.org.R;
 import choirhelper.silihasah.org.data.Pitch;
-import choirhelper.silihasah.org.ui.pitch.TarsosDSPstuffs.AudioDispatcherFactory;
+import choirhelper.silihasah.org.ui.pitch.tarsosDSPpitchvoice.AudioDispatcherFactory;
 
 public class PitchSongActivity extends AppCompatActivity {
 
+    //handler for runnable
     Handler handler = new Handler();
     long startTime = 0L, timeinMilliseconds=0L, timeSwapBuff=0L, updateTime=0L;
-    //timer runnable
 
+    //timer runnable
     Runnable updateRecordTimerThread = new Runnable() {
         @SuppressLint({"SetTextI18n", "DefaultLocale"})
         @Override
@@ -42,21 +51,41 @@ public class PitchSongActivity extends AppCompatActivity {
             pitchTrigg = (int)(updateTime/1000);
             secs%=60;
             int milliseconds = (int)(updateTime%1000);
-            timerecord.setText(String.format("%2d",mins)+":"+String.format("%2d",secs)+":"+String.format("%3d",milliseconds));
+            timerecord.setText(String.format("%2d",mins)+":"+String.format("%2d",secs));
             handler.postDelayed(this,0);
+
+            if(pitchTrigg == 45){
+                handler.removeCallbacks(updateRecordTimerThread);
+            }
         }
     };
 
+
+//    // submit task to threadpool:
+//    Future longRunningTaskFuture = threadPoolExecutor.submit(updateRecordTimerThread);
+
+    int i = 0;
     //pitch runnable
     Runnable updateSongPitchThread = new Runnable() {
         @Override
         public void run() {
+            i++;
             data.add(new Pitch(pitchinHzDisplay,pitch.getText().toString(),timerecord.getText().toString()));
-            Log.d("Data ditambahkan: ",String.valueOf(pitchTrigg));
+            mDb.child(voiceType + i).setValue(new Pitch(pitchinHzDisplay,pitch.getText().toString(),timerecord.getText().toString()));
             mAdapter.notifyDataSetChanged();
             handler.postDelayed(this,1000);
+
+            if(pitchTrigg == 45){
+                handler.removeCallbacks(updateSongPitchThread);
+            }
         }
     };
+
+    private String songTitle;
+    private String voiceType;
+    private String uid;
+    private DatabaseReference mDb;
+
 
     //the ArrayList data
     ArrayList<Pitch> fillData(){
@@ -74,6 +103,7 @@ public class PitchSongActivity extends AppCompatActivity {
     PitchSongAdapter mAdapter;
 
     private float pitchinHzDisplay ;
+    private TextView titleinfo;
 
     int pitchTrigg = 0;
 
@@ -89,12 +119,16 @@ public class PitchSongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pitch_song);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         initView();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        rv.setLayoutManager(layoutManager);
-        mAdapter = new PitchSongAdapter(this,data);
-        mAdapter.notifyDataSetChanged();
+        initPitch();
+
+        //database
+        mDb = FirebaseDatabase.getInstance().getReference().child("song_list").child(uid).child("song_data").child(voiceType);
+
+        //Check data if has data or not. If data empty, add data. If data exist don't add data.
 
         record.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,15 +136,19 @@ public class PitchSongActivity extends AppCompatActivity {
                 startTime = SystemClock.uptimeMillis();
 
                 //timer handler
-                handler.postDelayed(updateRecordTimerThread,0);
-
+                handler.postDelayed(updateRecordTimerThread, 0);
                 rv.setAdapter(mAdapter);
             }
         });
 
-        //recyclerview pitch song list
 
 
+//        mDb.setValue("Brosnan Ganteng");
+
+    }
+
+    //menghitung frekuensi dan nada suara (Android)
+    private void initPitch(){
         //pitch handler
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
@@ -133,14 +171,24 @@ public class PitchSongActivity extends AppCompatActivity {
         audioThread.start();
     }
 
-
-
     private void initView(){
         pitch = (TextView)findViewById(R.id.tv_songpitch);
         freq = (TextView)findViewById(R.id.tv_songfrequencies);
         record = (ImageView)findViewById(R.id.iv_record);
         timerecord = (TextView)findViewById(R.id.tv_recordtime);
         rv = (RecyclerView)findViewById(R.id.rv_tonepersec);
+        titleinfo = (TextView)findViewById(R.id.info_record);
+
+        songTitle = getIntent().getStringExtra("title");
+        voiceType = getIntent().getStringExtra("voicetype");
+        uid = getIntent().getStringExtra("uid");
+
+        setTitle(songTitle + " - " + voiceType);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        rv.setLayoutManager(layoutManager);
+        mAdapter = new PitchSongAdapter(this,mDb,data);
+        mAdapter.notifyDataSetChanged();
     }
 
     public void processPitch(float pitchInHz) {

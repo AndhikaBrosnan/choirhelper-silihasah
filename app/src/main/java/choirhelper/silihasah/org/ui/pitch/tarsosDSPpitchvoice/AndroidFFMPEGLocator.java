@@ -1,4 +1,4 @@
-package choirhelper.silihasah.org.ui.pitch.TarsosDSPstuffs;
+package choirhelper.silihasah.org.ui.pitch.tarsosDSPpitchvoice;
 
 import android.content.Context;
 import android.content.res.AssetManager;

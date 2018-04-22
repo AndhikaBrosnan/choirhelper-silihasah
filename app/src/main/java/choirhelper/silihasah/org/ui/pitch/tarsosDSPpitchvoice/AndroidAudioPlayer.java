@@ -1,4 +1,4 @@
-package choirhelper.silihasah.org.ui.pitch.TarsosDSPstuffs;
+package choirhelper.silihasah.org.ui.pitch.tarsosDSPpitchvoice;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;
@@ -7,7 +7,6 @@ import android.util.Log;
 
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.AudioProcessor;
-import be.tarsos.dsp.io.TarsosDSPAudioFloatConverter;
 import be.tarsos.dsp.io.TarsosDSPAudioFormat;
 
 /**

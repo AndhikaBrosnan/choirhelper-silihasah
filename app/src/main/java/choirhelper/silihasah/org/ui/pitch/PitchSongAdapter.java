@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 
 import choirhelper.silihasah.org.R;
@@ -17,10 +22,38 @@ public class PitchSongAdapter extends RecyclerView.Adapter<PitchSongAdapter.MyHo
     private final Context mContext;
     ArrayList<Pitch> mData;
 
-    public PitchSongAdapter(Context mContext,ArrayList<Pitch> mData) {
+    public PitchSongAdapter(Context mContext, DatabaseReference mDb, final ArrayList<Pitch> mData) {
         this.mContext = mContext;
         this.mData = mData;
         notifyDataSetChanged();
+//
+//        mDb.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                mData.add(dataSnapshot.getValue(Pitch.class));
+//                notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     @Override

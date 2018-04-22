@@ -21,7 +21,7 @@
 * 
 */
 
-package choirhelper.silihasah.org.ui.pitch.TarsosDSPstuffs;
+package choirhelper.silihasah.org.ui.pitch.tarsosDSPpitchvoice;
 
 import java.io.IOException;
 

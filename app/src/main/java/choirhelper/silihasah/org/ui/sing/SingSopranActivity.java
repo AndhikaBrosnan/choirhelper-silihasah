@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,7 +47,9 @@ public class SingSopranActivity extends AppCompatActivity {
             seekBar.setProgress(0);
             seekBar.setProgress(secs);
 
-            tuning();
+
+            Log.d("Bandingan Suara", String.valueOf(frequency_suara));
+            Log.d("Bandingan Data ", String.valueOf(frequency_banding));
 
             handler.postDelayed(this,1000);
         }
@@ -64,6 +67,8 @@ public class SingSopranActivity extends AppCompatActivity {
                     frequency_banding = Float.valueOf(dataSnapshot.getValue().toString());
 
                     freqbanding.setText(frequency_banding + " Hz");
+
+                    tuning();
 
                 }
 
@@ -106,8 +111,6 @@ public class SingSopranActivity extends AppCompatActivity {
     private String uid;
     private DatabaseReference mDbBanding;
     private float frequency_banding;
-    private float frequency_banding_perbandingan;
-    private float frequency_suara_perbandingan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,9 +146,6 @@ public class SingSopranActivity extends AppCompatActivity {
 
         //if frequency suara & frequency lagu = tunegood()
 
-        frequency_banding_perbandingan = (float)frequency_banding;
-        frequency_suara_perbandingan = (float)frequency_suara;
-
         //Time Handler
         startTime = SystemClock.uptimeMillis();
         handler.postDelayed(updateTimerThread,0);
@@ -169,12 +169,14 @@ public class SingSopranActivity extends AppCompatActivity {
 
 
     private void tuning(){
-        if (frequency_suara_perbandingan >= frequency_banding_perbandingan - 10 && frequency_suara_perbandingan <= frequency_banding_perbandingan + 10){
+        if (frequency_suara >= frequency_banding - 10 && frequency_suara <= frequency_banding + 10){
             tunegood();
-        }else if(frequency_suara_perbandingan <= frequency_banding_perbandingan - 10){
-            tunelow();
-        }else if (frequency_suara_perbandingan >= frequency_banding_perbandingan + 10){
+        }else if(frequency_suara <= frequency_banding - 10){
             tunehigh();
+        }else if (frequency_suara >= frequency_banding + 10){
+            tunelow();
+        }else {
+            idle();
         }
     }
 

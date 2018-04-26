@@ -2,11 +2,9 @@ package choirhelper.silihasah.org.ui.sing;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,19 +17,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import choirhelper.silihasah.org.R;
 
@@ -63,9 +48,35 @@ public class SingSopranActivity extends AppCompatActivity {
 
             tuning();
 
-            handler.postDelayed(this,0);
+            handler.postDelayed(this,1000);
         }
     };
+
+    int i = 0;
+    Runnable updateBandingThread = new Runnable() {
+        @Override
+        public void run() {
+            i++;
+            mDbBanding.child(voiceType+i).child("frequency").addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    frequency_banding = Float.valueOf(dataSnapshot.getValue().toString());
+
+                    freqbanding.setText(frequency_banding + " Hz");
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+            handler.postDelayed(this,1000);
+        }
+    };
+
+
 
     private TextView tv_timer;
     private TextView tv_freq;
@@ -82,17 +93,21 @@ public class SingSopranActivity extends AppCompatActivity {
     private SeekBar seekBar;
     private TextView ketepatannada;
 
-    private int frequency_suara;
+    private float frequency_suara;
 
     final Context context = this;
 
     private ImageView tunegood;
     private ImageView tunehigh;
     private ImageView tunelow;
-    private TextView goodfreq;
-    private EditText ipaddress;
-    private Button startbutton;
-
+    private TextView freqbanding;
+    private String songTitle;
+    private String voiceType;
+    private String uid;
+    private DatabaseReference mDbBanding;
+    private float frequency_banding;
+    private float frequency_banding_perbandingan;
+    private float frequency_suara_perbandingan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,14 +119,18 @@ public class SingSopranActivity extends AppCompatActivity {
         initView();
 //        serverConnect();
 
+        //database frequensi dari Arduino
         mDb = FirebaseDatabase.getInstance().getReference().child("frequency");
+
+        //database pembanding
+        mDbBanding = FirebaseDatabase.getInstance().getReference().child("song_list").child(uid).child("song_data").child(voiceType);
 
         mDb.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                frequency_suara = Integer.valueOf(dataSnapshot.getValue().toString());
+                //setiap mengecek tambah 1
+                frequency_suara = Float.valueOf(dataSnapshot.getValue().toString());
                 tv_freq.setText(frequency_suara +" Hz");
             }
 
@@ -121,248 +140,41 @@ public class SingSopranActivity extends AppCompatActivity {
             }
         });
 
+
+        //if frequency suara & frequency lagu = tunegood()
+
+        frequency_banding_perbandingan = (float)frequency_banding;
+        frequency_suara_perbandingan = (float)frequency_suara;
+
         //Time Handler
         startTime = SystemClock.uptimeMillis();
         handler.postDelayed(updateTimerThread,0);
+        handler.postDelayed(updateBandingThread,0);
     }
 
     private void initView(){
-        tv_freq = (TextView)findViewById(R.id.tv_freq_practice);
+        tv_freq = (TextView)findViewById(R.id.tv_freq_listennsingpractice);
         seekBar = (SeekBar)findViewById(R.id.sb_song);
         tv_timer = (TextView)findViewById(R.id.tv_timer);
         ketepatannada = (TextView)findViewById(R.id.tv_ketepatannada_practice);
         tunegood = (ImageView)findViewById(R.id.iv_tunegood_practice);
         tunehigh = (ImageView)findViewById(R.id.iv_tunehigh_practice);
         tunelow = (ImageView)findViewById(R.id.iv_tunelow_practice);
-        goodfreq = (TextView)findViewById(R.id.tv_goodfreq_practice);
-        ipaddress = (EditText)findViewById(R.id.et_ipaddr);
-        startbutton = (Button)findViewById(R.id.b_start);
+        freqbanding = (TextView)findViewById(R.id.tv_freqbanding_singpractice);
+
+        songTitle = getIntent().getStringExtra("title");
+        voiceType = getIntent().getStringExtra("voicetype");
+        uid = getIntent().getStringExtra("uid");
     }
 
-    //realtime wifi client code
-
-//    private void serverConnect(){
-//        String serverAdress = ipaddress.getText().toString() + ":" + "80";
-//        HttpRequestTask requestTask = new HttpRequestTask(serverAdress);
-//        requestTask.execute(ledStatus);
-//    }
-//
-//    private class HttpRequestTask extends AsyncTask<String, Void, String> {
-//
-//        private String serverAdress;
-//        private String serverResponse = "";
-//        private AlertDialog dialog;
-//
-//        public HttpRequestTask(String serverAdress) {
-//            this.serverAdress = serverAdress;
-//
-//            dialog = new AlertDialog.Builder(context)
-//                    .setTitle("HTTP Response from Ip Address:")
-//                    .setCancelable(true)
-//                    .create();
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            dialog.setMessage("Data sent , waiting response from server...");
-//
-//            if (!dialog.isShowing())
-//                dialog.show();
-//
-//            String val = params[0];
-//            final String url = "http://" + serverAdress + "/led/" + val;
-//
-//            try {
-//                HttpClient client = new DefaultHttpClient();
-//                HttpGet getRequest = new HttpGet();
-//                getRequest.setURI(new URI(url));
-//                HttpResponse response = client.execute(getRequest);
-//
-//                InputStream inputStream = null;
-//                inputStream = response.getEntity().getContent();
-//                BufferedReader bufferedReader =
-//                        new BufferedReader(new InputStreamReader(inputStream));
-//
-//                serverResponse = bufferedReader.readLine();
-//                inputStream.close();
-//
-//            } catch (URISyntaxException e) {
-//                e.printStackTrace();
-//                serverResponse = e.getMessage();
-//            } catch (ClientProtocolException e) {
-//                e.printStackTrace();
-//                serverResponse = e.getMessage();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                serverResponse = e.getMessage();
-//            }
-//
-//            return serverResponse;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//            dialog.setMessage(serverResponse);
-//
-//            if (!dialog.isShowing())
-//                dialog.show();
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            dialog.setMessage("Sending data to server, please wait...");
-//
-//            if (!dialog.isShowing())
-//                dialog.show();
-//        }
-//    }
 
     private void tuning(){
-
-        switch (secs){
-            case 3: //A3 (220.00)
-                goodfreq.setText("220");
-                if(frequency_suara>=214 && frequency_suara<= 224){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<214){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 4://C4 (261.63)
-                goodfreq.setText("261");
-                if(frequency_suara>=256 && frequency_suara<= 266){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<116){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 5: //A3 (220.00)
-                goodfreq.setText("220");
-                if(frequency_suara>=214 && frequency_suara<= 224){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<214){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 6://C4 (261.63)
-                goodfreq.setText("261");
-                if(frequency_suara>=256 && frequency_suara<= 266){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<116){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 7: //E4 (329.63)
-                goodfreq.setText("329");
-                if(frequency_suara>=323 && frequency_suara<= 332){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<323){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 8: //E4 (329.63)
-                goodfreq.setText("329");
-                if(frequency_suara>=323 && frequency_suara<= 332){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<323){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 9: //D4 (293.66)
-                goodfreq.setText("293");
-                if(frequency_suara>=323 && frequency_suara<= 332){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<323){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 10: // *diam*
-            case 11: // *diam*
-            case 12: // *diam*
-            case 13: // *diam*
-
-            case 14: //A3 (220.00)
-                goodfreq.setText("220");
-                if(frequency_suara>=214 && frequency_suara<= 224){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<214){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 15: //C4 (261.63)
-                goodfreq.setText("261");
-                if(frequency_suara>=256 && frequency_suara<= 266){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<116){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 16: //A3 (220.00)
-                goodfreq.setText("220");
-                if(frequency_suara>=214 && frequency_suara<= 224){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<214){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 17: //C4 (261.63)
-                goodfreq.setText("261");
-                if(frequency_suara>=256 && frequency_suara<= 266){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<116){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-            case 18: //E4 (329.63)
-                goodfreq.setText("329");
-                if(frequency_suara>=323 && frequency_suara<= 332){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<323){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-                break;
-
-            case 19: //D4 (293.66)
-                goodfreq.setText("293");
-                if(frequency_suara>=323 && frequency_suara<= 332){ //Data pembanding
-                    tunegood();
-                }else if(frequency_suara<323){
-                    tunelow();
-                }else {
-                    tunehigh();
-                }
-            case 20: //*diam*
-            case 21: //*diam*
-            case 22: //*diam*
-            case 23: //*diam*
-            case 24: //*diam*
-            default:
-                idle();
-                break;
+        if (frequency_suara_perbandingan >= frequency_banding_perbandingan - 10 && frequency_suara_perbandingan <= frequency_banding_perbandingan + 10){
+            tunegood();
+        }else if(frequency_suara_perbandingan <= frequency_banding_perbandingan - 10){
+            tunelow();
+        }else if (frequency_suara_perbandingan >= frequency_banding_perbandingan + 10){
+            tunehigh();
         }
     }
 

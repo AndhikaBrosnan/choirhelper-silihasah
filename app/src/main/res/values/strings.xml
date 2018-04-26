@@ -14,4 +14,8 @@
     <string name="permission_record_audio">The app must be able to use the microphone.</string>
     <string name="audio_record_init_error">Could not initialize AudioRecord.</string>
     <string name="masukan_ip_address_info">Masukan IP Address</string>
+    <string name="referensisoal">Apakah anda ingin record ulang referensi lagu?</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="recordsongdata">Record Song Data</string>
 </resources>

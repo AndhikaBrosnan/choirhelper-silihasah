@@ -97,14 +97,14 @@ public class SingBassActivity extends AppCompatActivity {
     }
 
     private void initView(){
-        tv_freq = (TextView)findViewById(R.id.tv_freq_practice);
+        tv_freq = (TextView)findViewById(R.id.tv_freq_listennsingpractice);
         seekBar = (SeekBar)findViewById(R.id.sb_song);
         tv_timer = (TextView)findViewById(R.id.tv_timer);
         ketepatannada = (TextView)findViewById(R.id.tv_ketepatannada_practice);
         tunegood = (ImageView)findViewById(R.id.iv_tunegood_practice);
         tunehigh = (ImageView)findViewById(R.id.iv_tunehigh_practice);
         tunelow = (ImageView)findViewById(R.id.iv_tunelow_practice);
-        goodfreq = (TextView)findViewById(R.id.tv_goodfreq_practice);
+        goodfreq = (TextView)findViewById(R.id.tv_freqbanding_singpractice);
     }
 
     private void tuning(){

@@ -17,7 +17,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_listentune" />
 
     <TextView
-        android:id="@+id/tv_freq_practice"
+        android:id="@+id/tv_freq_listennsingpractice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -100,7 +100,7 @@
         app:layout_constraintTop_toBottomOf="@+id/info_freq_practice" />
 
     <TextView
-        android:id="@+id/tv_goodfreq_practice"
+        android:id="@+id/tv_freqbanding_practice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"

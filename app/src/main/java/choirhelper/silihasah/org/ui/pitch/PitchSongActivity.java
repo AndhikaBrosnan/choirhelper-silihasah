@@ -1,6 +1,7 @@
 package choirhelper.silihasah.org.ui.pitch;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -12,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +34,7 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 import choirhelper.silihasah.org.R;
 import choirhelper.silihasah.org.data.Pitch;
 import choirhelper.silihasah.org.ui.pitch.tarsosDSPpitchvoice.AudioDispatcherFactory;
+import choirhelper.silihasah.org.ui.sing.SingSopranActivity;
 
 public class PitchSongActivity extends AppCompatActivity {
 
@@ -61,9 +64,6 @@ public class PitchSongActivity extends AppCompatActivity {
     };
 
 
-//    // submit task to threadpool:
-//    Future longRunningTaskFuture = threadPoolExecutor.submit(updateRecordTimerThread);
-
     int i = 0;
     //pitch runnable
     Runnable updateSongPitchThread = new Runnable() {
@@ -85,7 +85,22 @@ public class PitchSongActivity extends AppCompatActivity {
     private String voiceType;
     private String uid;
     private DatabaseReference mDb;
+    private Button singbutton;
 
+    RecyclerView rv;
+    PitchSongAdapter mAdapter;
+
+    private float pitchinHzDisplay ;
+    private TextView titleinfo;
+    private TextView pitch;
+    private TextView freq;
+    private ImageView record;
+    private TextView timerecord;
+
+
+    int pitchTrigg = 0;
+
+    ArrayList<Pitch> data = fillData();
 
     //the ArrayList data
     ArrayList<Pitch> fillData(){
@@ -98,22 +113,9 @@ public class PitchSongActivity extends AppCompatActivity {
         return data;
     }
 
-    ArrayList<Pitch> data = fillData();
-    RecyclerView rv;
-    PitchSongAdapter mAdapter;
-
-    private float pitchinHzDisplay ;
-    private TextView titleinfo;
-
-    int pitchTrigg = 0;
 
     AudioDispatcher dispatcher =
             AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
-    private TextView pitch;
-    private TextView freq;
-    private ImageView record;
-    private TextView timerecord;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,6 +180,7 @@ public class PitchSongActivity extends AppCompatActivity {
         timerecord = (TextView)findViewById(R.id.tv_recordtime);
         rv = (RecyclerView)findViewById(R.id.rv_tonepersec);
         titleinfo = (TextView)findViewById(R.id.info_record);
+        singbutton = (Button)findViewById(R.id.b_sing);
 
         songTitle = getIntent().getStringExtra("title");
         voiceType = getIntent().getStringExtra("voicetype");
@@ -185,12 +188,27 @@ public class PitchSongActivity extends AppCompatActivity {
 
         setTitle(songTitle + " - " + voiceType);
 
+        singbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SingSopranActivity.class);
+                Bundle b = new Bundle();
+                b.putString("uid",uid);
+                b.putString("title",uid);
+                b.putString("voicetype",voiceType);
+                intent.putExtras(b);
+                startActivity(intent);
+
+            }
+        });
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
         mAdapter = new PitchSongAdapter(this,mDb,data);
         mAdapter.notifyDataSetChanged();
     }
 
+    @SuppressLint("SetTextI18n")
     public void processPitch(float pitchInHz) {
 
         freq.setText("" + pitchInHz);

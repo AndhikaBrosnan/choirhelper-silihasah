@@ -232,7 +232,7 @@ public class SongActivity extends AppCompatActivity {
     }
 
     private void editSong(){
-        View view = getLayoutInflater().inflate(R.layout.song_editor,null, false);
+        View view = getLayoutInflater().inflate(R.layout.   song_editor,null, false);
         final EditText title = (EditText)view.findViewById(R.id.edit_song_title);
         final EditText arranger = (EditText)view.findViewById(R.id.edit_song_arranger);
         final CheckBox cek_Sopran = (CheckBox)view.findViewById(R.id.cb_sopran);

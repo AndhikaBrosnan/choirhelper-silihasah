@@ -2,13 +2,12 @@ package choirhelper.silihasah.org.ui.sing;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -20,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import choirhelper.silihasah.org.R;
+import choirhelper.silihasah.org.ui.sing.post_sing.SplashDoneSinging;
 
 /**
  * Created by BrosnanUhYeah on 03/04/2018.
@@ -43,15 +43,15 @@ public class SingSopranActivity extends AppCompatActivity {
             tv_timer.setText(String.format("%2d",mins)+":"+String.format("%2d",secs));
 
             //Seekbar handler
-            seekBar.setMax(50);
+            seekBar.setMax(45);
             seekBar.setProgress(0);
             seekBar.setProgress(secs);
 
-
-            Log.d("Bandingan Suara", String.valueOf(frequency_suara));
-            Log.d("Bandingan Data ", String.valueOf(frequency_banding));
-
             handler.postDelayed(this,1000);
+
+            if(secs == 45){
+                handler.removeCallbacks(updateTimerThread);
+            }
         }
     };
 
@@ -69,19 +69,31 @@ public class SingSopranActivity extends AppCompatActivity {
                     freqbanding.setText(frequency_banding + " Hz");
 
                     tuning();
-
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
+
+
             });
+
+
+
             handler.postDelayed(this,1000);
+
+            if(secs == 45){
+                handler.removeCallbacks(updateBandingThread);
+                Intent intent = new Intent(getApplicationContext(), SplashDoneSinging.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("voicetype",voiceType);
+                bundle.putString("uid",uid);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
         }
     };
-
-
 
     private TextView tv_timer;
     private TextView tv_freq;
@@ -111,6 +123,7 @@ public class SingSopranActivity extends AppCompatActivity {
     private String uid;
     private DatabaseReference mDbBanding;
     private float frequency_banding;
+    int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +163,7 @@ public class SingSopranActivity extends AppCompatActivity {
         startTime = SystemClock.uptimeMillis();
         handler.postDelayed(updateTimerThread,0);
         handler.postDelayed(updateBandingThread,0);
+
     }
 
     private void initView(){
@@ -171,6 +185,8 @@ public class SingSopranActivity extends AppCompatActivity {
     private void tuning(){
         if (frequency_suara >= frequency_banding - 10 && frequency_suara <= frequency_banding + 10){
             tunegood();
+            score += 2;
+            mDbBanding.child("score").setValue(score);
         }else if(frequency_suara <= frequency_banding - 10){
             tunehigh();
         }else if (frequency_suara >= frequency_banding + 10){
@@ -190,6 +206,7 @@ public class SingSopranActivity extends AppCompatActivity {
         tunehigh.setImageResource(R.color.grey);
         tunegood.setImageResource(R.color.green);
         tunelow.setImageResource(R.color.grey);
+
     }
 
     private void tunehigh(){
@@ -198,6 +215,7 @@ public class SingSopranActivity extends AppCompatActivity {
         tunehigh.setImageResource(R.color.red);
         tunegood.setImageResource(R.color.grey);
         tunelow.setImageResource(R.color.grey);
+
     }
 
     private void tunelow(){

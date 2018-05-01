@@ -21,18 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.sing.SingBassActivity"
-            android:label="SING BASS"
-            android:parentActivityName=".ui.songlist.SongActivity" />
         <activity android:name=".ui.practice.PickVoiceTypeActivity" />
         <activity
             android:name=".ui.sing.SingSopranActivity"
             android:parentActivityName=".ui.songlist.SongActivity" />
         <activity android:name=".ui.sing.singpractice.ListennSingActivity" />
-        <activity android:name=".ui.pitch.PitchSongActivity"
-            android:parentActivityName=".ui.songlist.SongActivity"
-            />
+        <activity
+            android:name=".ui.pitch.PitchSongActivity"
+            android:parentActivityName=".ui.songlist.SongActivity" />
+        <activity android:name=".ui.sing.post_sing.SplashDoneSinging" />
+        <activity android:name=".ui.sing.post_sing.score.ScoreActivity"></activity>
     </application>
 
 </manifest>

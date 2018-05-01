@@ -340,9 +340,8 @@ public class SongActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_sing:
-                Intent intent = new Intent (getApplicationContext(),SingSopranActivity.class);
-                //send data to bernyanyi activity
-                startActivity(intent);
+//                Intent intent = new Intent (getApplicationContext(),SingSopranActivity.class);
+//                startActivity(intent);
                 return true;
         }
 

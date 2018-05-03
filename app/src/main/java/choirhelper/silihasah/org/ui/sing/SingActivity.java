@@ -25,7 +25,7 @@ import choirhelper.silihasah.org.ui.sing.post_sing.SplashDoneSinging;
  * Created by BrosnanUhYeah on 03/04/2018.
  */
 
-public class SingSopranActivity extends AppCompatActivity {
+public class SingActivity extends AppCompatActivity {
 
     Runnable updateTimerThread = new Runnable() {
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
@@ -183,13 +183,13 @@ public class SingSopranActivity extends AppCompatActivity {
 
 
     private void tuning(){
-        if (frequency_suara >= frequency_banding - 10 && frequency_suara <= frequency_banding + 10){
+        if (frequency_suara >= frequency_banding - 20 && frequency_suara <= frequency_banding + 20){
             tunegood();
             score += 2;
             mDbBanding.child("score").setValue(score);
-        }else if(frequency_suara <= frequency_banding - 10){
+        }else if(frequency_suara <= frequency_banding - 20){
             tunehigh();
-        }else if (frequency_suara >= frequency_banding + 10){
+        }else if (frequency_suara >= frequency_banding + 20){
             tunelow();
         }else {
             idle();
@@ -206,7 +206,6 @@ public class SingSopranActivity extends AppCompatActivity {
         tunehigh.setImageResource(R.color.grey);
         tunegood.setImageResource(R.color.green);
         tunelow.setImageResource(R.color.grey);
-
     }
 
     private void tunehigh(){

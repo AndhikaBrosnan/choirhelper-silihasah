@@ -26,6 +26,8 @@ public class ScoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         score = (TextView)findViewById(R.id.tv_score);
 
         voiceType = getIntent().getStringExtra("voicetype");

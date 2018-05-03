@@ -2,16 +2,12 @@ package choirhelper.silihasah.org.ui.pitch;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.provider.SyncStateContract;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,9 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
@@ -34,7 +27,7 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 import choirhelper.silihasah.org.R;
 import choirhelper.silihasah.org.data.Pitch;
 import choirhelper.silihasah.org.ui.pitch.tarsosDSPpitchvoice.AudioDispatcherFactory;
-import choirhelper.silihasah.org.ui.sing.SingSopranActivity;
+import choirhelper.silihasah.org.ui.sing.SingActivity;
 
 public class PitchSongActivity extends AppCompatActivity {
 
@@ -191,7 +184,7 @@ public class PitchSongActivity extends AppCompatActivity {
         singbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SingSopranActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SingActivity.class);
                 Bundle b = new Bundle();
                 b.putString("uid",uid);
                 b.putString("title",uid);

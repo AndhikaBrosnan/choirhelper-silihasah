@@ -49,8 +49,7 @@ import com.google.firebase.storage.UploadTask;
 
 import choirhelper.silihasah.org.R;
 import choirhelper.silihasah.org.data.Song;
-import choirhelper.silihasah.org.ui.practice.PickVoiceTypeActivity;
-import choirhelper.silihasah.org.ui.sing.SingSopranActivity;
+import choirhelper.silihasah.org.ui.pickvoicetype.PickVoiceTypeActivity;
 
 //import android.view.ActionMode;
 
@@ -340,7 +339,7 @@ public class SongActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_sing:
-//                Intent intent = new Intent (getApplicationContext(),SingSopranActivity.class);
+//                Intent intent = new Intent (getApplicationContext(),SingActivity.class);
 //                startActivity(intent);
                 return true;
         }

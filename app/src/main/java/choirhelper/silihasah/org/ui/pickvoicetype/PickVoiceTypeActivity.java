@@ -1,9 +1,8 @@
-package choirhelper.silihasah.org.ui.practice;
+package choirhelper.silihasah.org.ui.pickvoicetype;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,12 +19,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import choirhelper.silihasah.org.R;
 import choirhelper.silihasah.org.ui.pitch.PitchSongActivity;
-import choirhelper.silihasah.org.ui.sing.SingSopranActivity;
-import choirhelper.silihasah.org.ui.sing.singpractice.ListennSingActivity;
+import choirhelper.silihasah.org.ui.sing.SingActivity;
 
 public class PickVoiceTypeActivity extends AppCompatActivity {
 
-    int FILL_DATA_CODE = 0;
+    int FILL_DATA_CODE_SOPRAN = 0;
+    int FILL_DATA_CODE_ALTO = 0;
+    int FILL_DATA_CODE_TENOR = 0;
+    int FILL_DATA_CODE_BASS = 0;
 
     private Button sopran;
     private Button alto;
@@ -58,22 +59,22 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
                 //Kalo datanya ada, tanya, mau nyanyi atau masukin data baru?
                 if (dataSnapshot.child("sopran").exists()){
                     sopran.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
-                    FILL_DATA_CODE = 1;
+                    FILL_DATA_CODE_SOPRAN = 1;
                 }
 
                 if(dataSnapshot.child("alto").exists()){
                     alto.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
-                    FILL_DATA_CODE = 1;
+                    FILL_DATA_CODE_ALTO = 1;
                 }
 
                 if(dataSnapshot.child("tenor").exists()){
                     tenor.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
-                    FILL_DATA_CODE = 1;
+                    FILL_DATA_CODE_TENOR = 1;
                 }
 
                 if(dataSnapshot.child("bass").exists()){
                     bass.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
-                    FILL_DATA_CODE = 1;
+                    FILL_DATA_CODE_BASS = 1;
                 }
             }
 
@@ -92,7 +93,7 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
         sopran.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (FILL_DATA_CODE==0){
+                if (FILL_DATA_CODE_SOPRAN ==0){
                     Intent intent = new Intent(getApplicationContext(), PitchSongActivity.class);
                     bundle.putString("voicetype","sopran");
                     intent.putExtras(bundle);
@@ -118,7 +119,7 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Ga record ulang, langsung nyanyi.
-                                Intent intent = new Intent(getApplicationContext(), SingSopranActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), SingActivity.class);
                                 bundle.putString("voicetype","sopran");
                                 intent.putExtras(bundle);
                                 startActivity(intent);
@@ -134,7 +135,7 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (FILL_DATA_CODE==0){
+                if (FILL_DATA_CODE_ALTO ==0){
                     Intent intent = new Intent(getApplicationContext(), PitchSongActivity.class);
                     bundle.putString("voicetype","alto");
                     intent.putExtras(bundle);
@@ -158,7 +159,7 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Ga record ulang, langsung nyanyi.
-                                Intent intent = new Intent(getApplicationContext(), SingSopranActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), SingActivity.class);
                                 bundle.putString("voicetype","alto");
                                 intent.putExtras(bundle);
                                 startActivity(intent);
@@ -173,7 +174,7 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (FILL_DATA_CODE==0){
+                if (FILL_DATA_CODE_TENOR ==0){
                     Intent intent = new Intent(getApplicationContext(), PitchSongActivity.class);
                     bundle.putString("voicetype","tenor");
                     intent.putExtras(bundle);
@@ -197,7 +198,7 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Ga record ulang, langsung nyanyi.
-                                Intent intent = new Intent(getApplicationContext(), SingSopranActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), SingActivity.class);
                                 bundle.putString("voicetype","tenor");
                                 intent.putExtras(bundle);
                                 startActivity(intent);
@@ -212,7 +213,7 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (FILL_DATA_CODE==0){
+                if (FILL_DATA_CODE_BASS ==0){
                     Intent intent = new Intent(getApplicationContext(), PitchSongActivity.class);
                     bundle.putString("voicetype","bass");
                     intent.putExtras(bundle);
@@ -236,7 +237,7 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Ga record ulang, langsung nyanyi.
-                                Intent intent = new Intent(getApplicationContext(), SingSopranActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), SingActivity.class);
                                 bundle.putString("voicetype","bass");
                                 intent.putExtras(bundle);
                                 startActivity(intent);

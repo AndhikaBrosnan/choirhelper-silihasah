@@ -241,7 +241,6 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
                                 bundle.putString("voicetype","bass");
                                 intent.putExtras(bundle);
                                 startActivity(intent);
-
                             }
                         });
                 alert.create().show();

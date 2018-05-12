@@ -1,9 +1,13 @@
 package choirhelper.silihasah.org.ui.pitch;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -128,11 +132,7 @@ public class PitchSongActivity extends AppCompatActivity {
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startTime = SystemClock.uptimeMillis();
 
-                //timer handler
-                handler.postDelayed(updateRecordTimerThread, 0);
-                rv.setAdapter(mAdapter);
             }
         });
 
@@ -199,6 +199,13 @@ public class PitchSongActivity extends AppCompatActivity {
         rv.setLayoutManager(layoutManager);
         mAdapter = new PitchSongAdapter(this,mDb,data);
         mAdapter.notifyDataSetChanged();
+
+        //start the time and record the frequency
+        startTime = SystemClock.uptimeMillis();
+
+        //timer handler
+        handler.postDelayed(updateRecordTimerThread, 0);
+        rv.setAdapter(mAdapter);
     }
 
     @SuppressLint("SetTextI18n")

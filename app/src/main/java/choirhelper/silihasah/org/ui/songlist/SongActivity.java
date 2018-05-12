@@ -15,6 +15,7 @@
  */
 package choirhelper.silihasah.org.ui.songlist;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,6 +48,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import choirhelper.silihasah.org.R;
 import choirhelper.silihasah.org.data.Song;
 import choirhelper.silihasah.org.ui.pickvoicetype.PickVoiceTypeActivity;
@@ -63,7 +67,8 @@ public class SongActivity extends AppCompatActivity {
     private StorageReference mStorage;
     private SongAdapter mAdapter;
 
-    private static final int MP3_REQUEST = 1;
+    private static final int REQUEST_PERMISSIONS = 1;
+    private static final int AUDIO_REQUEST = 2;
 
     ProgressDialog progressDialog;
     UploadTask uploadTask;
@@ -110,6 +115,8 @@ public class SongActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
+
+        checkPermission();
 
         RecyclerView rv = (RecyclerView)findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -351,20 +358,39 @@ public class SongActivity extends AppCompatActivity {
     public void uploadMp3(View view) {
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE}, MP3_REQUEST);
-        }else{
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSIONS);
 
+        }else{
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("audio/*");
-            startActivityForResult(intent,MP3_REQUEST);
+            startActivityForResult(intent, REQUEST_PERMISSIONS);
         }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MP3_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_PERMISSIONS && resultCode == RESULT_OK) {
             final Uri songUri = data.getData();
             mResulUri = songUri;
             Log.d("media","onActivityResult"+songUri.toString());
         }
+    }
+
+    public boolean checkPermission(){
+
+        int permissionStorage = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        int permissionRecordAudio = ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if(permissionStorage != PackageManager.PERMISSION_GRANTED){
+            listPermissionsNeeded.add(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if(permissionRecordAudio != PackageManager.PERMISSION_GRANTED){
+            listPermissionsNeeded.add(Manifest.permission.RECORD_AUDIO);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),REQUEST_PERMISSIONS);
+            return false;
+        }
+        return true;
     }
 }

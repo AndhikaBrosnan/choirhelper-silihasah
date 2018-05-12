@@ -3,7 +3,7 @@
     <string name="action_sing">Sing</string>
     <string name="hint_song_title">Title</string>
     <string name="hint_song_arranger">Arranger</string>
-    <string name="empty_view_title_text">Still Empty, try to add some songs :)</string>
+    <string name="empty_view_title_text">There are no songs yet\nTry to add some songs :)</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="editor_activity_title_new_song">Add a New Song!</string>

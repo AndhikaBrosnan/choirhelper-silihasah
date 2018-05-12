@@ -18,8 +18,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
+
 import choirhelper.silihasah.org.R;
+import choirhelper.silihasah.org.data.Song;
 import choirhelper.silihasah.org.ui.sing.post_sing.SplashDoneSinging;
+import choirhelper.silihasah.org.ui.sing.post_sing.score.score_history.DatabaseHelper;
 
 /**
  * Created by BrosnanUhYeah on 03/04/2018.
@@ -75,18 +79,18 @@ public class SingActivity extends AppCompatActivity {
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
-
-
             });
-
-
 
             handler.postDelayed(this,1000);
 
             if(secs == 45){
                 handler.removeCallbacks(updateBandingThread);
+
+                postDataToSQLite();
+
                 Intent intent = new Intent(getApplicationContext(), SplashDoneSinging.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("songTitle",songTitle);
                 bundle.putString("voicetype",voiceType);
                 bundle.putString("uid",uid);
                 intent.putExtras(bundle);
@@ -123,18 +127,21 @@ public class SingActivity extends AppCompatActivity {
     private String uid;
     private DatabaseReference mDbBanding;
     private float frequency_banding;
-    int score = 0;
+    float score = 0;
+    Song song;
+    DatabaseHelper databaseHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sing);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         initView();
 //        serverConnect();
 
+        databaseHelper = new DatabaseHelper(context);
+        song = new Song();
         //database frequensi dari Arduino
         mDb = FirebaseDatabase.getInstance().getReference().child("frequency");
 
@@ -179,17 +186,19 @@ public class SingActivity extends AppCompatActivity {
         songTitle = getIntent().getStringExtra("title");
         voiceType = getIntent().getStringExtra("voicetype");
         uid = getIntent().getStringExtra("uid");
+
+        setTitle(songTitle + " - " +voiceType);
     }
 
 
     private void tuning(){
-        if (frequency_suara >= frequency_banding - 20 && frequency_suara <= frequency_banding + 20){
+        if (frequency_suara >= frequency_banding - 25 && frequency_suara <= frequency_banding + 25){
             tunegood();
-            score += 2;
-            mDbBanding.child("score").setValue(score);
-        }else if(frequency_suara <= frequency_banding - 20){
+            score += 2.22;
+            mDbBanding.child("score").setValue(new DecimalFormat("##.##").format(score));
+        }else if(frequency_suara <= frequency_banding - 25){
             tunehigh();
-        }else if (frequency_suara >= frequency_banding + 20){
+        }else if (frequency_suara >= frequency_banding + 25){
             tunelow();
         }else {
             idle();
@@ -223,5 +232,20 @@ public class SingActivity extends AppCompatActivity {
         tunegood.setImageResource(R.color.grey);
         tunehigh.setImageResource(R.color.grey);
         tunelow.setImageResource(R.color.red);
+    }
+
+    private int j = 0;
+    public void postDataToSQLite(){
+        j++;
+        song.setSongId(j);
+        song.setmTitle(songTitle);
+        song.setVoiceType(voiceType);
+        song.setScore(String.valueOf(new DecimalFormat("##.##").format(score)));
+
+        databaseHelper.addTodo(song);
+        Log.d("Data udah masuk:",song.toString());
+        Log.d("Song Title:",songTitle);
+        Log.d("Voice Type:",voiceType);
+        Log.d("Score:", String.valueOf(score));
     }
 }

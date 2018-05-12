@@ -10,7 +10,10 @@ public class Song {
     private boolean isTenor;
     private boolean isBass;
 
+    private String score;
+    private int songId;
 
+    private String voiceType;
 
     public Song(String mTitle, String mArranger, String mSongURL, boolean isSopran, boolean isAlto, boolean isTenor, boolean isBass) {
         this.mTitle = mTitle;
@@ -22,10 +25,20 @@ public class Song {
         this.isBass = isBass;
     }
 
-    public Song(String mTitle, String mArranger, String mSongURL) {
-        this.mTitle = mTitle;
-        this.mArranger = mArranger;
-        this.mSongURL = mSongURL;
+    public int getSongId() {
+        return songId;
+    }
+
+    public void setSongId(int songId) {
+        this.songId = songId;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
     }
 
     public void setSopran(boolean sopran) {
@@ -86,6 +99,14 @@ public class Song {
 
     public boolean isBass() {
         return isBass;
+    }
+
+    public void setVoiceType(String voiceType) {
+        this.voiceType = voiceType;
+    }
+
+    public String getVoiceType() {
+        return voiceType;
     }
 
     public String getJns_Suara() {

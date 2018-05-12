@@ -14,6 +14,7 @@ public class SplashDoneSinging extends AppCompatActivity {
 
     private String voiceType;
     private String uid;
+    private String songTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class SplashDoneSinging extends AppCompatActivity {
 
         voiceType = getIntent().getStringExtra("voicetype");
         uid = getIntent().getStringExtra("uid");
+        songTitle = getIntent().getStringExtra("songTitle");
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -34,6 +36,7 @@ public class SplashDoneSinging extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("voicetype",voiceType);
                 bundle.putString("uid", uid);
+                bundle.putString("songTitle",songTitle);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();

@@ -48,7 +48,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         initView();
 
-        if(songTitle == null || voiceType == null || uid == null || scoreValue ==null){
+        if(songTitle == null || voiceType == null || uid == null){
             score.setText("SCORE HISTORY");
             setTitle("Improve yourself!");
         }else{

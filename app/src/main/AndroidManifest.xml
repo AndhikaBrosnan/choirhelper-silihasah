@@ -23,11 +23,9 @@
         </activity>
         <activity android:name=".ui.pickvoicetype.PickVoiceTypeActivity" />
         <activity
-            android:name=".ui.sing.SingActivity"
-            android:parentActivityName=".ui.songlist.SongActivity" />
+            android:name=".ui.sing.SingActivity" />
         <activity
-            android:name=".ui.pitch.PitchSongActivity"
-            android:parentActivityName=".ui.songlist.SongActivity" />
+            android:name=".ui.pitch.PitchSongActivity" />
         <activity android:name=".ui.sing.post_sing.SplashDoneSinging" />
         <activity android:name=".ui.sing.post_sing.score.ScoreActivity"
             android:parentActivityName=".ui.songlist.SongActivity"

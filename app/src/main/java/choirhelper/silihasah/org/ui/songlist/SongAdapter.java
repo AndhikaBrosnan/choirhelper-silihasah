@@ -70,6 +70,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder_> i
                     public void onSuccess(Uri uri) {
                         final String url = uri.toString();
                         try {
+
                             mediaPlayer.setDataSource(url);
                             mediaPlayer.setOnPreparedListener(SongAdapter.this);
                             mediaPlayer.prepareAsync();
@@ -182,6 +183,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder_> i
         public void onClick(View view) {
             //tambahin parameter mDataId dibawah ini
             mClickHandler.onClick(mDataId.get(getAdapterPosition()), mData.get(getAdapterPosition()));
+
         }
 
         @Override

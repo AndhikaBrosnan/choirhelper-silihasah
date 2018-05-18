@@ -187,7 +187,7 @@ public class PitchSongActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), SingActivity.class);
                 Bundle b = new Bundle();
                 b.putString("uid",uid);
-                b.putString("title",uid);
+                b.putString("title",songTitle);
                 b.putString("voicetype",voiceType);
                 intent.putExtras(b);
                 startActivity(intent);

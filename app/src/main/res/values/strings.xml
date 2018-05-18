@@ -3,7 +3,7 @@
     <string name="action_sing">Sing</string>
     <string name="hint_song_title">Title</string>
     <string name="hint_song_arranger">Arranger</string>
-    <string name="empty_view_title_text">There are no songs yet\nTry to add some songs :)</string>
+    <string name="empty_view_title_text">There are no songs yet\nTry adding some songs and sing it :)</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="editor_activity_title_new_song">Add a New Song!</string>
@@ -14,8 +14,8 @@
     <string name="permission_record_audio">The app must be able to use the microphone.</string>
     <string name="audio_record_init_error">Could not initialize AudioRecord.</string>
     <string name="masukan_ip_address_info">Masukan IP Address</string>
-    <string name="referensisoal">Apakah anda ingin record ulang referensi lagu?</string>
-    <string name="yes">Ya</string>
-    <string name="no">Tidak</string>
+    <string name="referensisoal">Do you want to replace the song reference?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="recordsongdata">Record Song Data</string>
 </resources>

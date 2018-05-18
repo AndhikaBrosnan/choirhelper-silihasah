@@ -83,7 +83,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:onClick="uploadMp3"
-        android:src="@drawable/common_plus_signin_btn_icon_light_normal"
+        android:src="@drawable/ic_inputsong"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -86,14 +86,14 @@ public class SingActivity extends AppCompatActivity {
             if(secs == 45){
                 handler.removeCallbacks(updateBandingThread);
 
-                postDataToSQLite();
-
                 Intent intent = new Intent(getApplicationContext(), SplashDoneSinging.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("songTitle",songTitle);
                 bundle.putString("voicetype",voiceType);
                 bundle.putString("uid",uid);
                 intent.putExtras(bundle);
+
+                postDataToSQLite();
                 startActivity(intent);
             }
         }
@@ -147,6 +147,9 @@ public class SingActivity extends AppCompatActivity {
 
         //database pembanding
         mDbBanding = FirebaseDatabase.getInstance().getReference().child("song_list").child(uid).child("song_data").child(voiceType);
+
+        mDb.setValue(0);
+        mDbBanding.child("score").setValue(0);
 
         mDb.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -206,11 +209,11 @@ public class SingActivity extends AppCompatActivity {
     }
 
     private void idle(){
-        ketepatannada.setText("diam");
+        ketepatannada.setText("idle");
     }
 
     private void tunegood(){
-        ketepatannada.setText("NADA TEPAT");
+        ketepatannada.setText("PITCH PERFECT");
 
         tunehigh.setImageResource(R.color.grey);
         tunegood.setImageResource(R.color.green);
@@ -218,7 +221,7 @@ public class SingActivity extends AppCompatActivity {
     }
 
     private void tunehigh(){
-        ketepatannada.setText("NADA TERLALU TINGGI");
+        ketepatannada.setText("PITCH TOO HIGH");
 
         tunehigh.setImageResource(R.color.red);
         tunegood.setImageResource(R.color.grey);
@@ -227,7 +230,7 @@ public class SingActivity extends AppCompatActivity {
     }
 
     private void tunelow(){
-        ketepatannada.setText("NADA TERLALU RENDAH");
+        ketepatannada.setText("PITCH TOO LOW");
 
         tunegood.setImageResource(R.color.grey);
         tunehigh.setImageResource(R.color.grey);

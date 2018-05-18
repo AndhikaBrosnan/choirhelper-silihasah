@@ -13,7 +13,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Frequency Suara anda: "
+        android:text="Your Voice Frequency: "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_timer" />
 
@@ -117,24 +117,22 @@
 
     <TextView
         android:id="@+id/info_good_frequency_practice"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Frequency Seharusnya:"
+        android:text="Right Frequency:"
         app:layout_constraintEnd_toEndOf="@+id/info_freq_practice"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/info_freq_practice"
         app:layout_constraintTop_toBottomOf="@+id/info_freq_practice" />
 
     <TextView
         android:id="@+id/tv_freqbanding_singpractice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
         android:text="0 hz"
-        app:layout_constraintStart_toEndOf="@+id/info_good_frequency_practice"
+        app:layout_constraintStart_toStartOf="@+id/tv_freq_listennsingpractice"
         app:layout_constraintTop_toTopOf="@+id/info_good_frequency_practice" />
 
 

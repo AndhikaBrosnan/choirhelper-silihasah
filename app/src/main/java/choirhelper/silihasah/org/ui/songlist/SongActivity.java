@@ -20,6 +20,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -148,6 +149,8 @@ public class SongActivity extends AppCompatActivity {
                 bundle.putBoolean("tenor",currentSong.isTenor());
                 bundle.putBoolean("bass",currentSong.isBass());
                 bundle.putString("uid",song_id);
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                mediaPlayer.stop();
                 intent.putExtras(bundle);
                 startActivity(intent);
 //                Toast.makeText(SongActivity.this, currentSong.getmTitle(),Toast.LENGTH_LONG).show();
@@ -371,7 +374,7 @@ public class SongActivity extends AppCompatActivity {
         if (requestCode == REQUEST_PERMISSIONS && resultCode == RESULT_OK) {
             final Uri songUri = data.getData();
             mResulUri = songUri;
-            Log.d("media","onActivityResult"+songUri.toString());
+//            Log.d("media","onActivityResult"+songUri.toString());
         }
     }
 

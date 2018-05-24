@@ -64,7 +64,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder_> i
                 final MediaPlayer mediaPlayer = new MediaPlayer();
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-                mStorage = mStorage = FirebaseStorage.getInstance().getReferenceFromUrl(currentSong.getmSongURL());
+                mStorage = FirebaseStorage.getInstance().getReferenceFromUrl(currentSong.getmSongURL());
                 mStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {

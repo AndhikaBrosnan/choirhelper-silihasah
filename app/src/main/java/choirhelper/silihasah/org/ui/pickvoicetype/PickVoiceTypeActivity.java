@@ -3,6 +3,7 @@ package choirhelper.silihasah.org.ui.pickvoicetype;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,9 @@ public class PickVoiceTypeActivity extends AppCompatActivity {
         initView();
         initOnClicks();
         setTitle(songTitle);
+
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.stop();
 
         mDb = FirebaseDatabase.getInstance().getReference().child("song_list").child(uid).child("song_data");
         mDb.addListenerForSingleValueEvent(new ValueEventListener() {

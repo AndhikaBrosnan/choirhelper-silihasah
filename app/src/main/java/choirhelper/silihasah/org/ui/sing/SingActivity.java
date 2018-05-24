@@ -200,9 +200,9 @@ public class SingActivity extends AppCompatActivity {
             score += 2.22;
             mDbBanding.child("score").setValue(new DecimalFormat("##.##").format(score));
         }else if(frequency_suara <= frequency_banding - 25){
-            tunehigh();
-        }else if (frequency_suara >= frequency_banding + 25){
             tunelow();
+        }else if (frequency_suara >= frequency_banding + 25){
+            tunehigh();
         }else {
             idle();
         }

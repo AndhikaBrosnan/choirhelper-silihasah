@@ -135,4 +135,8 @@ public class ScoreActivity extends AppCompatActivity {
         }.execute();
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -55,6 +56,7 @@ public class PitchSongActivity extends AppCompatActivity {
             handler.postDelayed(this,0);
 
             if(pitchTrigg == 45){
+                Toast.makeText(PitchSongActivity.this, "Rekaman Selesai. Silahkan bernyanyi :)", Toast.LENGTH_SHORT).show();
                 handler.removeCallbacks(updateRecordTimerThread);
             }
         }
@@ -117,8 +119,6 @@ public class PitchSongActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pitch_song);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initView();
 
@@ -245,8 +245,6 @@ public class PitchSongActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
-        finish();
+//        super.onBackPressed();
     }
 }

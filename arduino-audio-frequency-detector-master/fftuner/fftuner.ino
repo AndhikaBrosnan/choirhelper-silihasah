@@ -5,8 +5,8 @@
 #include <FirebaseHttpClient.h>
 #include <FirebaseObject.h>
 
-#define WIFI_SSID "ANUGERAH"
-#define WIFI_PASSWORD "ANDHIGOLD"
+#define WIFI_SSID "choirhelper"
+#define WIFI_PASSWORD "choirhelper"
 
 #define FIREBASE_HOST "choirhelperfix.firebaseio.com"
 #define FIREBASE_AUTH "dyXffyXBaBbWaMjr9OjeFV06xs6VdgwDijUn7WT8"
@@ -19,8 +19,8 @@ WiFiClient client;
 int INPUT_PIN = D0;    //input pin
 
 
-int NSAMPLES = 32;    // number of readings of A0 for each loop execution, coba ubah jadi 32 or 16
-int SAMPLINGFREQ = 704;    // number of readings per second
+int NSAMPLES = 64;    // number of readings of A0 for each loop execution, coba ubah jadi 32 or 16
+int SAMPLINGFREQ = 768;    // number of readings per second (default 704)
 // pins of the lights, pins with PWM were chosen in case you want to use different brightness levels
 int led_1 = D1;
 int led_2 = D2;
@@ -75,7 +75,7 @@ void loop() {
   Serial.print("Frecuencia maxima : ");   //print the maximum frequency on the monitor
   Serial.println(maxFreq);
 
-  Firebase.setInt("frequency",maxFreq);
+//  Firebase.setInt("frequency",maxFreq);
   
   
   //The logic to determine frequencies, the range is still customize which don't determine chord, yet  

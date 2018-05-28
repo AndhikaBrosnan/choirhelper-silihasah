@@ -69,10 +69,10 @@ public class SingActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     frequency_banding = Float.valueOf(dataSnapshot.getValue().toString());
-
+                    tuning();
                     freqbanding.setText(frequency_banding + " Hz");
 
-                    tuning();
+
                 }
 
                 @Override
@@ -250,5 +250,10 @@ public class SingActivity extends AppCompatActivity {
         Log.d("Song Title:",songTitle);
         Log.d("Voice Type:",voiceType);
         Log.d("Score:", String.valueOf(score));
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
     }
 }

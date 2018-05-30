@@ -17,10 +17,13 @@ package choirhelper.silihasah.org.ui.songlist;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -76,6 +79,8 @@ public class SongActivity extends AppCompatActivity {
     Uri mResulUri;
     ImageView songImage;
 
+    boolean connected = false;
+
     //tambahin variable
     private ActionMode actionMode;
     private ActionMode.Callback callback = new ActionMode.Callback() {
@@ -118,6 +123,30 @@ public class SongActivity extends AppCompatActivity {
         setContentView(R.layout.activity_catalog);
 
         checkPermission();
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            connected = true;
+        }
+        else{
+            connected = false;
+//            Toast.makeText(this, "NO INTERNET CONNECTION", Toast.LENGTH_LONG).show();
+            //BIKIN MUNCULIN ALERT DIALOGNYA
+            AlertDialog.Builder connbuilder = new AlertDialog.Builder(this)
+                    .setTitle("Connection Issue")
+                    .setMessage("Enable your mobile data and tether the network with SSID: choirhelper and Password: choirhelper")
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                            System.exit(0);
+                        }
+                    });
+            connbuilder.create().show();
+
+        }
+
 
         RecyclerView rv = (RecyclerView)findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -267,6 +296,7 @@ public class SongActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.action_save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         progressDialog.setMessage("Harap Tunggu...");
                         progressDialog.show();
 
@@ -304,8 +334,6 @@ public class SongActivity extends AppCompatActivity {
                                 return;
                             }
                         });
-
-
                     }
                 })
                 .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
@@ -377,6 +405,8 @@ public class SongActivity extends AppCompatActivity {
 //            Log.d("media","onActivityResult"+songUri.toString());
         }
     }
+
+
 
     public boolean checkPermission(){
 

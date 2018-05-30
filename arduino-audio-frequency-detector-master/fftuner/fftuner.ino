@@ -75,7 +75,7 @@ void loop() {
   Serial.print("Frecuencia maxima : ");   //print the maximum frequency on the monitor
   Serial.println(maxFreq);
 
-//  Firebase.setInt("frequency",maxFreq);
+  Firebase.setInt("frequency",maxFreq);
   
   
   //The logic to determine frequencies, the range is still customize which don't determine chord, yet  
